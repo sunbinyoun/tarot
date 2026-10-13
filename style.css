@@ -1,0 +1,408 @@
+/* 밤의 테이블 위에 놓인 카드: 짙은 남보라 바탕, 금박 같은 강조색, 본문은 산세리프, 제목은 붓 느낌의 명조.
+   한 가지 테마(어두움)로 고정한다. */
+:root {
+  --bg: #14111f;
+  --bg-deep: #0f0d18;
+  --panel: #1d1830;
+  --panel-2: #241e3a;
+  --line: #372e52;
+  --text: #eee9f7;
+  --muted: #a99fc2;
+  --accent: #d9b45a;
+  --accent-soft: rgba(217, 180, 90, 0.14);
+  --accent-ink: #1b1508;
+  --card-back: #2c2147;
+  --card-face: #f7f1e3;
+  --card-ink: #2a2238;
+  --reversed: #d27f7f;
+  --radius: 14px;
+  --font-display: "Gowun Batang", "Nanum Myeongjo", "AppleMyungjo", serif;
+  --font-body: "Noto Sans KR", system-ui, -apple-system, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { scroll-behavior: smooth; scroll-padding-top: 72px; }
+
+body {
+  margin: 0;
+  background:
+    radial-gradient(1200px 500px at 70% -10%, rgba(120, 86, 190, 0.22), transparent 70%),
+    var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+a { color: var(--accent); }
+img { max-width: 100%; }
+
+.wrap { max-width: 1040px; margin: 0 auto; padding-inline: 20px; }
+.section { padding-block: 40px; }
+
+h1, h2, h3 { font-family: var(--font-display); font-weight: 700; text-wrap: balance; line-height: 1.3; }
+h2 { font-size: 28px; margin: 0 0 16px; }
+h3 { font-size: 19px; margin: 0 0 8px; }
+.eyebrow { margin: 0 0 6px; font-size: 13px; letter-spacing: 0.08em; color: var(--accent); }
+.hint { margin: 8px 0 0; font-size: 14px; color: var(--muted); }
+.section-lead { max-width: 65ch; color: var(--muted); margin: 0 0 24px; }
+
+/* ----- 머리말 ----- */
+.site-head {
+  position: sticky;
+  top: env(safe-area-inset-top, 0px);
+  z-index: 10;
+  background: rgba(20, 17, 31, 0.86);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+}
+.head-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 56px; }
+.brand { font-family: var(--font-display); font-weight: 700; font-size: 20px; color: var(--text); text-decoration: none; }
+.nav { display: flex; gap: 18px; flex-wrap: wrap; }
+.nav a { color: var(--muted); text-decoration: none; font-size: 15px; }
+.nav a:hover { color: var(--text); }
+
+/* ----- 첫 화면 ----- */
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  align-items: center;
+  gap: 32px;
+  padding-block: 56px 24px;
+}
+.hero h1 { font-size: clamp(34px, 6vw, 54px); margin: 0 0 16px; }
+.lead { max-width: 46ch; color: var(--muted); margin: 0 0 24px; font-size: 17px; }
+.hero-cards { position: relative; height: 340px; }
+.hero-cards img {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  width: 170px;
+  height: auto;
+  border-radius: 10px;
+  border: 2px solid var(--accent);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
+}
+.hero-cards img:nth-child(1) { transform: translateX(-120%) rotate(-12deg); }
+.hero-cards img:nth-child(2) { transform: translateX(-50%) translateY(-14px); z-index: 1; }
+.hero-cards img:nth-child(3) { transform: translateX(20%) rotate(12deg); }
+
+/* ----- 공통 요소 ----- */
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 24px;
+}
+
+button, .button {
+  font: inherit;
+  font-size: 15px;
+  padding: 9px 16px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+}
+button:hover, .button:hover { border-color: var(--accent); }
+button:focus-visible, .button:focus-visible, input:focus-visible, .card:focus-visible, .lib-card:focus-visible, a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); font-weight: 700; }
+.primary:hover { background: #e6c475; }
+button:disabled { opacity: 0.5; cursor: default; }
+
+.field { display: block; margin-bottom: 18px; }
+.field > span { display: block; font-size: 14px; color: var(--muted); margin-bottom: 6px; }
+
+input[type="text"], input[type="search"] {
+  width: 100%;
+  padding: 11px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: var(--bg-deep);
+  color: var(--text);
+  font: inherit;
+  font-size: 16px;
+}
+
+/* ----- 리딩 설정 ----- */
+.setup h2 { margin-bottom: 18px; }
+.spreads, .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.spreads button[aria-checked="true"], .chips button[aria-checked="true"] {
+  background: var(--accent);
+  color: var(--accent-ink);
+  border-color: var(--accent);
+}
+.options { display: flex; flex-wrap: wrap; gap: 18px; margin-bottom: 18px; color: var(--muted); font-size: 15px; }
+.actions { display: flex; gap: 8px; flex-wrap: wrap; }
+
+/* ----- 카드 테이블 ----- */
+.table {
+  min-height: 160px;
+  margin: 28px 0;
+  display: grid;
+  gap: 16px;
+  justify-content: center;
+  grid-template-columns: repeat(auto-fit, 120px);
+  align-items: start;
+}
+.empty { grid-column: 1 / -1; text-align: center; color: var(--muted); align-self: center; }
+
+.slot { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.slot-label, .card-name {
+  font-size: 13px; line-height: 18px; height: 18px; max-width: 100%;
+  text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.slot-label { color: var(--muted); }
+.card-name { font-weight: 700; }
+.card-name.rev { color: var(--reversed); }
+
+.card {
+  width: 120px;
+  height: 208px; /* RWS 카드 비율(약 1:1.73) */
+  perspective: 800px;
+  cursor: pointer;
+  border: 0;
+  padding: 0;
+  background: none;
+  border-radius: 10px;
+}
+.card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.6s ease;
+  transform-style: preserve-3d;
+}
+.card.flipped .card-inner { transform: rotateY(180deg); }
+
+.card-back, .card-front {
+  position: absolute;
+  inset: 0;
+  border-radius: 10px;
+  backface-visibility: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.card-back {
+  background:
+    radial-gradient(circle at 50% 50%, rgba(217, 180, 90, 0.18) 0 22%, transparent 23%),
+    repeating-linear-gradient(45deg, transparent 0 8px, rgba(217, 180, 90, 0.12) 8px 9px),
+    var(--card-back);
+  border: 2px solid var(--accent);
+  color: var(--accent);
+  font-size: 30px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+}
+.card-front {
+  transform: rotateY(180deg);
+  background: var(--card-face);
+  color: var(--card-ink);
+  border: 2px solid var(--accent);
+  padding: 10px 6px;
+  justify-content: space-between;
+  text-align: center;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+}
+.card-front.is-reversed .face, .card-front.is-reversed .face-img { transform: rotate(180deg); }
+/* RWS 그림 앞면: 그림이 카드를 채우고, 글자 앞면은 그림을 못 불러올 때만 보인다 */
+.card-front.has-image { padding: 0; overflow: hidden; }
+.card-front.has-image .face { display: none; }
+.card-front:not(.has-image) .face-img { display: none; }
+.face-img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.face { display: flex; flex-direction: column; justify-content: space-between; align-items: center; height: 100%; width: 100%; }
+.face-num { font-size: 14px; font-weight: 700; }
+.face-symbol { font-size: 40px; line-height: 1; }
+.face-name { font-size: 15px; font-weight: 700; }
+.face-en { font-size: 10px; opacity: 0.7; }
+
+.card.dealing { animation: deal 0.4s ease both; }
+@keyframes deal {
+  from { opacity: 0; transform: translateY(-24px) scale(0.9); }
+  to { opacity: 1; transform: none; }
+}
+
+/* 켈틱 크로스 배치 */
+.table.celtic {
+  grid-template-columns: repeat(4, 120px) 40px 120px;
+  grid-template-areas:
+    ".  p3 .  . . p10"
+    "p5 p1 p6 . . p9"
+    ".  p4 .  . . p8"
+    ".  .  .  . . p7";
+}
+.table.celtic .slot[data-i="0"] { grid-area: p1; }
+.table.celtic .slot[data-i="1"] { grid-area: p1; transform: rotate(90deg); z-index: 1; }
+.table.celtic .slot[data-i="2"] { grid-area: p3; }
+.table.celtic .slot[data-i="3"] { grid-area: p4; }
+.table.celtic .slot[data-i="4"] { grid-area: p5; }
+.table.celtic .slot[data-i="5"] { grid-area: p6; }
+.table.celtic .slot[data-i="6"] { grid-area: p7; }
+.table.celtic .slot[data-i="7"] { grid-area: p8; }
+.table.celtic .slot[data-i="8"] { grid-area: p9; }
+.table.celtic .slot[data-i="9"] { grid-area: p10; }
+/* 가로 카드는 이름표 자리를 비워 둔 채 회전시켜 중심 카드와 정확히 겹치게 한다 */
+.table.celtic .slot[data-i="1"] .slot-label,
+.table.celtic .slot[data-i="1"] .card-name { visibility: hidden; }
+
+/* ----- 결과 ----- */
+.result { scroll-margin-top: 72px; }
+.result-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; flex-wrap: wrap; }
+.result-question { margin: 0; font-size: 24px; }
+.result-actions { display: flex; gap: 8px; }
+
+.synthesis {
+  margin-top: 20px;
+  padding: 20px;
+  border-radius: 12px;
+  background: var(--accent-soft);
+  border: 1px solid rgba(217, 180, 90, 0.35);
+}
+.synthesis h3 { color: var(--accent); }
+.synthesis p { margin: 8px 0; max-width: 70ch; }
+.synthesis p:last-child { color: var(--muted); font-size: 15px; }
+
+.result section + section { margin-top: 24px; }
+.interpretations { list-style: none; padding: 0; margin: 0; }
+.interpretations li {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr);
+  gap: 16px;
+  border-top: 1px solid var(--line);
+  padding: 16px 0;
+}
+.interp-img { width: 72px; height: auto; border-radius: 6px; border: 1px solid var(--line); }
+.interp-img.rev { transform: rotate(180deg); }
+.interp-pos { font-size: 13px; color: var(--muted); }
+.interp-name { font-weight: 700; font-size: 18px; font-family: var(--font-display); }
+.interp-name .rev { color: var(--reversed); font-size: 14px; margin-left: 6px; font-family: var(--font-body); }
+.interp-kw, .kw { color: var(--accent); font-size: 14px; margin: 2px 0 0; }
+.interp-text { margin: 6px 0 0; }
+
+.ai { border-top: 1px solid var(--line); padding-top: 18px; }
+.ai-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; }
+.ai-head h3 { margin: 0; color: var(--accent); }
+.ai-actions { display: flex; gap: 8px; }
+.ai-body { margin-top: 8px; }
+.ai-body p { margin: 8px 0; }
+.ai-body ul { padding-left: 18px; margin: 8px 0; }
+.ai-body li { margin: 10px 0; }
+.ai-body strong { color: var(--accent); }
+.ai-cont { display: block; margin-top: 4px; }
+.ai-wait { color: var(--muted); }
+.ai .hint:empty { display: none; }
+
+/* ----- 읽는 법 ----- */
+.guide-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.guide-item { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px; }
+.guide-item p { margin: 0; color: var(--muted); font-size: 15px; }
+.elements { list-style: none; padding: 0; margin: 0 0 10px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px 12px; font-size: 15px; }
+.elements b { color: var(--accent); font-weight: 700; margin-right: 6px; }
+
+/* ----- 카드 사전 ----- */
+.lib-tools { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
+.lib-grid {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(104px, 1fr));
+  gap: 16px 12px;
+}
+.lib-card {
+  width: 100%;
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+  background: none;
+  text-align: center;
+  color: var(--text);
+}
+.lib-card img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 240 / 410;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: var(--panel);
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+.lib-card:hover img { transform: translateY(-3px); border-color: var(--accent); }
+.lib-card span { display: block; margin-top: 6px; font-size: 13px; line-height: 1.4; }
+
+.card-dialog {
+  width: min(680px, calc(100vw - 32px));
+  max-height: calc(100vh - 48px);
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--panel);
+  color: var(--text);
+}
+.card-dialog::backdrop { background: rgba(8, 6, 14, 0.7); }
+.dlg-close-row { display: flex; justify-content: flex-end; padding: 12px 12px 0; }
+.dlg-body { display: grid; grid-template-columns: 180px minmax(0, 1fr); gap: 20px; padding: 0 24px 24px; }
+.dlg-body img { width: 180px; height: auto; border-radius: 10px; border: 2px solid var(--accent); }
+.dlg-body h3 { font-size: 26px; margin: 0; }
+.dlg-body h4 { margin: 16px 0 0; font-size: 15px; }
+.dlg-body p { margin: 4px 0 0; }
+.dlg-en { color: var(--muted); font-size: 14px; }
+
+/* ----- 기록 ----- */
+.row-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.row-head h2 { margin: 0; }
+.history-list { list-style: none; padding: 0; margin: 12px 0 0; }
+.history-list li { border-top: 1px solid var(--line); padding: 12px 0; font-size: 15px; display: grid; gap: 2px; justify-items: start; }
+.history-list .h-meta { color: var(--muted); font-size: 13px; }
+.history-list button { margin-top: 6px; font-size: 14px; padding: 6px 12px; }
+.history-list .h-empty { color: var(--muted); border: 0; }
+
+/* ----- 꼬리말 ----- */
+.site-foot { border-top: 1px solid var(--line); margin-top: 32px; padding-block: 28px 40px; color: var(--muted); font-size: 14px; }
+.site-foot p { margin: 0 0 8px; max-width: 75ch; }
+.credit { font-size: 13px; }
+
+/* ----- 좁은 화면 ----- */
+@media (max-width: 760px) {
+  .hero { grid-template-columns: minmax(0, 1fr); padding-top: 32px; gap: 8px; }
+  .hero-cards { height: 250px; order: -1; }
+  .hero-cards img { width: 124px; }
+  .nav { gap: 12px; }
+  .nav a { font-size: 14px; }
+  .panel { padding: 18px; }
+  .guide-grid { grid-template-columns: minmax(0, 1fr); }
+  .table, .table.celtic {
+    grid-template-columns: repeat(auto-fit, 100px);
+    grid-template-areas: none;
+  }
+  .table.celtic .slot { grid-area: auto !important; transform: none !important; }
+  .table.celtic .slot[data-i="1"] .slot-label,
+  .table.celtic .slot[data-i="1"] .card-name { visibility: visible; }
+  .card { width: 100px; height: 173px; }
+  .face-symbol { font-size: 32px; }
+  .face-name { font-size: 13px; }
+  .dlg-body { grid-template-columns: minmax(0, 1fr); padding: 0 18px 20px; }
+  .dlg-body img { width: 140px; }
+}
+@media (max-width: 420px) {
+  .brand { font-size: 18px; }
+  .nav a:nth-child(4) { display: none; }
+  .lib-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .card-inner { transition: none; }
+  .card.dealing { animation: none; }
+  .lib-card img { transition: none; }
+}

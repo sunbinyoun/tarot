@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>거울 타로</title>
+  <meta name="description" content="질문을 떠올리고 라이더 웨이트 스미스(RWS) 타로 카드를 뽑아 보세요. 원소와 수비학, 카드 사이의 흐름으로 지금의 상황을 돌아보는 무료 타로 리딩이에요.">
+  <meta name="theme-color" content="#14111f">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="거울 타로">
+  <meta property="og:description" content="RWS 타로 카드로 지금의 흐름을 돌아보는 무료 타로 리딩">
+  <meta property="og:image" content="https://sunbinyoun.github.io/tarot/images/og.jpg">
+  <meta property="og:url" content="https://sunbinyoun.github.io/tarot/">
+  <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-head">
+    <div class="wrap head-row">
+      <a class="brand" href="#top">거울 타로</a>
+      <nav class="nav" aria-label="사이트 메뉴">
+        <a href="#reading">리딩</a>
+        <a href="#guide">읽는 법</a>
+        <a href="#library">카드 사전</a>
+        <a href="#history-section">기록</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero wrap">
+      <div class="hero-text">
+        <p class="eyebrow">Rider–Waite–Smith · 78장</p>
+        <h1>지금의 흐름을<br>비추는 타로</h1>
+        <p class="lead">마음에 걸리는 질문을 하나 떠올리고 카드를 뽑아 보세요. 카드의 원소와 숫자, 카드 사이의 관계를 읽어 지금 상황이 어디로 흘러가는지, 어떤 태도가 도움이 될지 정리해 드려요.</p>
+        <a class="button primary" href="#reading">카드 뽑으러 가기</a>
+      </div>
+      <div class="hero-cards" aria-hidden="true">
+        <img src="images/rws/major-0.jpg" alt="" width="240" height="410">
+        <img src="images/rws/major-17.jpg" alt="" width="240" height="410">
+        <img src="images/rws/major-21.jpg" alt="" width="240" height="410">
+      </div>
+    </section>
+
+    <section id="reading" class="wrap section">
+      <div class="panel setup" aria-label="리딩 설정">
+        <h2>리딩</h2>
+        <label class="field">
+          <span>질문</span>
+          <input id="question" type="text" maxlength="120" placeholder="예: 이번 달 일은 어떻게 흘러갈까요?">
+        </label>
+
+        <div class="field">
+          <span>배열법</span>
+          <div id="spreads" class="spreads" role="radiogroup" aria-label="배열법"></div>
+          <p id="spread-desc" class="hint"></p>
+        </div>
+
+        <div class="options">
+          <label><input id="opt-reversed" type="checkbox" checked> 역방향 포함</label>
+          <label><input id="opt-major" type="checkbox"> 메이저 아르카나만</label>
+        </div>
+
+        <div class="actions">
+          <button id="btn-draw" class="primary" type="button">카드 섞고 뽑기</button>
+          <button id="btn-reveal" type="button" hidden>모두 뒤집기</button>
+        </div>
+      </div>
+
+      <div id="table" class="table" aria-live="polite">
+        <p class="empty">카드를 뽑으면 여기에 펼쳐져요. 한 장씩 눌러 뒤집어 보세요.</p>
+      </div>
+
+      <article id="result" class="panel result" hidden>
+        <header class="result-head">
+          <div>
+            <p id="result-spread" class="eyebrow"></p>
+            <h2 id="result-question" class="result-question"></h2>
+          </div>
+          <div class="result-actions">
+            <button id="btn-share" type="button" hidden>공유</button>
+            <button id="btn-copy" type="button">결과 복사</button>
+          </div>
+        </header>
+
+        <section class="synthesis" aria-labelledby="synthesis-title">
+          <h3 id="synthesis-title">종합 해석</h3>
+          <div id="synthesis"></div>
+        </section>
+
+        <!-- claude.ai 아티팩트 안에서만 보인다 (scripts/build_artifact.js) -->
+        <section id="ai" class="ai" hidden>
+          <div class="ai-head">
+            <h3>Claude의 해석</h3>
+            <div class="ai-actions">
+              <button id="btn-ai-stop" type="button" hidden>멈추기</button>
+              <button id="btn-ai" type="button">해석 받기</button>
+            </div>
+          </div>
+          <div id="ai-body" class="ai-body"></div>
+          <p id="ai-note" class="hint"></p>
+        </section>
+
+        <section aria-labelledby="cards-title">
+          <h3 id="cards-title">카드별 해석</h3>
+          <ol id="interpretations" class="interpretations"></ol>
+        </section>
+      </article>
+    </section>
+
+    <section id="guide" class="wrap section">
+      <h2>읽는 법</h2>
+      <p class="section-lead">이 사이트는 라이더 웨이트 스미스(RWS) 덱과 융의 분석심리학 관점을 바탕으로 카드를 읽어요. 정해진 미래를 맞히기보다, 지금의 상황과 마음을 돌아보는 데 쓰는 도구로 다뤄요.</p>
+      <div class="guide-grid">
+        <div class="guide-item">
+          <h3>메이저와 마이너</h3>
+          <p>메이저 아르카나 22장(0번 바보~21번 세계)은 삶의 큰 전환과 원형적인 흐름을 보여 줘요. 마이너 아르카나 56장은 일상의 사건과 행동, 감정의 작은 변화를 보여 줘요.</p>
+        </div>
+        <div class="guide-item">
+          <h3>네 가지 원소</h3>
+          <ul class="elements">
+            <li><b>완드 · 불</b> 행동과 열정</li>
+            <li><b>컵 · 물</b> 감정과 관계</li>
+            <li><b>소드 · 공기</b> 생각과 소통</li>
+            <li><b>펜타클 · 흙</b> 현실과 물질</li>
+          </ul>
+          <p>불과 공기, 물과 흙은 서로 돕고, 불과 물, 공기와 흙은 서로 부딪쳐요. 이웃한 카드의 원소 관계로 흐름이 매끄러운지 긴장이 있는지 읽어요.</p>
+        </div>
+        <div class="guide-item">
+          <h3>숫자와 인물</h3>
+          <p>1은 시작, 2는 균형과 선택, 5는 갈등과 변화, 10은 한 순환의 완결처럼 숫자마다 단계가 있어요. 시종·기사·여왕·왕은 배우고, 밀고 나가고, 품고, 다스리는 태도를 뜻해요.</p>
+        </div>
+        <div class="guide-item">
+          <h3>정방향과 역방향</h3>
+          <p>역방향으로 나온 카드는 그 에너지가 막혀 있거나, 밖으로 드러나기보다 안쪽으로 향하고 있다는 신호로 읽어요. 나쁜 카드라는 뜻은 아니에요.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="library" class="wrap section">
+      <h2>카드 사전</h2>
+      <div class="lib-tools">
+        <div id="lib-filters" class="chips" role="radiogroup" aria-label="카드 묶음"></div>
+        <input id="dict-search" class="dict-search" type="search" placeholder="카드 이름이나 키워드로 찾기" aria-label="카드 찾기">
+      </div>
+      <ul id="dictionary" class="lib-grid"></ul>
+      <p id="lib-empty" class="hint" hidden>찾는 카드가 없어요. 다른 낱말로 찾아보세요.</p>
+    </section>
+
+    <section id="history-section" class="wrap section">
+      <div class="row-head">
+        <h2>지난 리딩</h2>
+        <button id="btn-clear" type="button">기록 지우기</button>
+      </div>
+      <p class="hint">기록은 이 기기의 브라우저에만 저장돼요. 최근 20개까지 남아요.</p>
+      <ul id="history" class="history-list"></ul>
+    </section>
+  </main>
+
+  <dialog id="card-dialog" class="card-dialog" aria-labelledby="dlg-name">
+    <form method="dialog" class="dlg-close-row"><button type="submit" aria-label="닫기">닫기</button></form>
+    <div class="dlg-body">
+      <img id="dlg-img" alt="" width="240" height="410">
+      <div>
+        <p id="dlg-kind" class="eyebrow"></p>
+        <h3 id="dlg-name"></h3>
+        <p id="dlg-en" class="dlg-en"></p>
+        <h4>정방향</h4>
+        <p id="dlg-up-kw" class="kw"></p>
+        <p id="dlg-up"></p>
+        <h4>역방향</h4>
+        <p id="dlg-rev-kw" class="kw"></p>
+        <p id="dlg-rev"></p>
+      </div>
+    </div>
+  </dialog>
+
+  <footer class="site-foot">
+    <div class="wrap">
+      <p>타로는 스스로를 돌아보는 도구예요. 건강·법률·재정처럼 중요한 결정은 전문가와 함께 충분히 생각한 뒤 내려 주세요.</p>
+      <p class="credit">카드 그림: Pamela Colman Smith, Rider–Waite–Smith 타로 1909년판(퍼블릭 도메인), <a href="https://commons.wikimedia.org/wiki/Category:Rider-Waite_tarot_deck_(Roses_%26_Lilies)" rel="noopener">Wikimedia Commons</a> 스캔.</p>
+    </div>
+  </footer>
+
+  <script src="js/cards.js"></script>
+  <script src="js/deck.js"></script>
+  <script src="js/reader.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
